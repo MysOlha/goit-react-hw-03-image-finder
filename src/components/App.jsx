@@ -55,9 +55,13 @@ class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.handleChangeName} />
-        <Loader />
-        <ImageGallery images={this.state.images} />
-        <Button onClick={this.loadMore} />
+        {/* <Loader /> */}
+        {this.state.images.length === 0 ? (
+          <h2 style={{ textAlign: 'center' }}>Try to find something</h2>
+        ) : (
+          <ImageGallery images={this.state.images} />
+        )}
+        {this.state.images.length >= 12 && <Button onClick={this.loadMore} />}
 
         <ToastContainer />
       </>
