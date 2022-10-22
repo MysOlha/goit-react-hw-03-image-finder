@@ -1,10 +1,20 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import css from './ImageGallery.module.css';
 
-const ImageGallery = ({ allImages }) => {
+const ImageGallery = ({ images }) => {
   return (
-    <ul class="gallery">
-      {/* {allImages.map({ id, webformatURL, largeImageURL })} */}
-      <ImageGalleryItem />
+    <ul className={css.imageGallery}>
+      {images.map(({ id, webformatURL, largeImageURL, tags }) => {
+        return (
+          <li key={id} className={css.imageGalleryItem}>
+            <ImageGalleryItem
+              webFormat={webformatURL}
+              largeFormat={largeImageURL}
+              tag={tags}
+            />
+          </li>
+        );
+      })}
     </ul>
   );
 };

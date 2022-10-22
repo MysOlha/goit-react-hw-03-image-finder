@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import css from './Searchbar.module.css';
 import { BiSearch } from 'react-icons/bi';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 class Searchbar extends Component {
   state = {
@@ -16,7 +16,7 @@ class Searchbar extends Component {
   handleFormSubmit = evt => {
     evt.preventDefault();
     if (this.state.imageName.trim() === '') {
-      alert('Empty string');
+      toast.error('Empty string');
       return;
     }
     this.props.onSubmit(this.state.imageName);
