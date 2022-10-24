@@ -8,22 +8,23 @@ import Searchbar from './Searchbar';
 import Button from './Button';
 import Loader from './Loader';
 
+const APIURL = 'https://pixabay.com/api';
+const KEY = '29767436-14c23983d91939ba59ac81ecb';
 class App extends Component {
   state = {
     imageName: '',
     images: [],
-    apiUrl: 'https://pixabay.com/api',
-    key: '29767436-14c23983d91939ba59ac81ecb',
     page: 1,
     loading: false,
     error: null,
+    perPage: 12,
   };
 
   getImages = () => {
     this.setState({ loading: true });
     axios
       .get(
-        `${this.state.apiUrl}/?key=${this.state.key}&q=${this.state.imageName}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=12`
+        `${APIURL}/?key=${KEY}&q=${this.state.imageName}&page=${this.state.page}&image_type=photo&orientation=horizontal&per_page=${this.state.perPage}`
       )
       .then(res =>
         this.setState(({ images }) => ({
@@ -57,16 +58,22 @@ class App extends Component {
   };
 
   render() {
+    const { loading, images, perPage } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.handleChangeName} />
-        {this.state.loading && <Loader />}
 
-        <ImageGallery images={this.state.images} />
-        {this.state.images.length === 0 && !this.state.loading && (
+        <ImageGallery images={images} />
+
+        {images.length === 0 && !loading && (
           <h2 style={{ textAlign: 'center' }}>No images for showing</h2>
         )}
-        {this.state.images.length >= 12 && <Button onClick={this.loadMore} />}
+
+        {loading && <Loader />}
+
+        {images.length >= perPage &&
+          images.length % perPage === 0 &&
+          !loading && <Button onClick={this.loadMore} />}
 
         <ToastContainer />
       </>
@@ -75,3 +82,4 @@ class App extends Component {
 }
 
 export default App;
+//
